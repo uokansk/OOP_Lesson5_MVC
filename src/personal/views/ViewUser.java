@@ -20,7 +20,7 @@ public class ViewUser {
 
         while (true) {
             try {
-                String command = prompt("Введите команду: CREATE, READ, LIST, DELETE  \n");
+                String command = prompt("Введите команду: CREATE, READ, LIST, DELETE, UPDATE  \n");
 //            com = Commands.valueOf(command);
                 com = Commands.valueOf(command.toUpperCase());
                 if (com == Commands.EXIT) return;
@@ -37,11 +37,26 @@ public class ViewUser {
                     case DELETE:
                         caseDelete();
                         break;
+                    case UPDATE:
+                        caseUpdate();
+                        break;
                 }
             } catch (Exception e) {
                 System.out.printf("Ошибка: %s \n", e.getMessage());
             }
         }
+    }
+
+    private void caseUpdate() throws Exception {
+        String id = prompt("Выберете  id user ");
+        try {
+            User user = userController.readUser(id);
+            System.out.println(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        userController.deleteUser(id);
+        caseCreate();
     }
 
     private void caseDelete() {
